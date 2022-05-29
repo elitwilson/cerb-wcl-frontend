@@ -11,6 +11,7 @@ services:
   ports:
     - 8080:8080
   volumes:
-    - ./src:/app/src
+    # - ./src:/app/src
+    - ./:/app
   # command: [ "http-server", "dist" ]
   command: [ "npm" , "run", "dev", "--host" ]

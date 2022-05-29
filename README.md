@@ -4,7 +4,7 @@ Dockerized dev environment starter kit for Vue 3 with Vite
 
 ## Features
 - Incredibly fast live reloading with Vite
-- Local changes to /src/ on the host machine are picked up in the container through Docker bind mount
+- Local changes are picked up in the container through Docker bind mount
 
 ## Start hacking
 - ```docker compose up```

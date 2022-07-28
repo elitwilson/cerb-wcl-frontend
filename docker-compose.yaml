@@ -2,16 +2,14 @@ version: '3.8'
 
 services:
  vue-dev:
-  platform: linux/amd64
   build:
    context: .
   tty: true
   environment:
     - CHOKIDAR_USEPOLLING=true
   ports:
-    - 8080:8080
+    - 3000:3000
   volumes:
-    # - ./src:/app/src
     - ./:/app
-  # command: [ "http-server", "dist" ]
+    - /app/node_modules # <- Required so that the host node_modules directory doesn't conflict with what is in the container
   command: [ "npm" , "run", "dev", "--host" ]

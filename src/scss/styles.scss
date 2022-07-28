@@ -1,0 +1,6 @@
+@import "~bootstrap/scss/bootstrap";
+
+.btn-custom {
+    @include button-variant(#3FB883, #194f37, #3FB883, #444, #333, #3FB883);
+    color: white;
+}

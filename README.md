@@ -1,14 +1,14 @@
 # vue-starter-kit
 
-Dockerized dev environment starter kit for Vue 3 with Vite
+Dockerized dev environment starter kit for Vue 3
 
-## Features
-- Incredibly fast live reloading with Vite
-- Local changes are picked up in the container through Docker bind mount
+## Core Tools
+- Vite: Build/bundling tool with dev server, fast hot-reloading
+- Bootstrap 5 & SASS
 
 ## Start hacking
 - ```docker compose up```
-- http://localhost:8080
+- http://localhost:3000
 
 ## Recommended IDE Setup
 

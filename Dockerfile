@@ -6,13 +6,15 @@ RUN apk update && apk add bash
 # make the 'app' folder the current working directory
 WORKDIR /app
 
-COPY package.json .
+# COPY package.json .
 # COPY .yarnrc.yml .
-RUN yarn install
-
 COPY . .
 
+RUN yarn install
+
+
+
 # Uncomment to build app for production with minification
-# RUN npm run build
+RUN npm run build
 
 EXPOSE 3000

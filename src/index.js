@@ -1,11 +1,16 @@
 const express = require('express')
+const path = require('path')
 const app = express()
-const port = 3000
+require('dotenv').config()
+console.log(process.env)
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.use(express.static('src/dist'));
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`Example app listening on port ${port}`)
+
+app.get('/home', function(req,res){
+    res.sendfile(__dirname + '/src/dist/index.html');
+   }); 
+
+app.listen(process.env.PORT || 3001, () => {
+    console.log(`Example app listening on port ${process.env.PORT}`)
 })

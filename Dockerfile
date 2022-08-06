@@ -7,7 +7,7 @@ RUN apk update && apk add bash
 WORKDIR /app
 
 COPY package.json .
-COPY .yarnrc.yml .
+# COPY .yarnrc.yml .
 RUN yarn install
 
 COPY . .

@@ -6,13 +6,16 @@
     "build": "vite build",
     "preview": "vite preview --port 5050",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "start-dev": "nodemon ./src/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.6.5",
     "@popperjs/core": "^2.11.5",
     "@vue/apollo-option": "^4.0.0-alpha.17",
+    "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "graphql": "^16.5.0",
@@ -28,6 +31,7 @@
     "@vue/eslint-config-prettier": "^7.0.0",
     "eslint": "^8.5.0",
     "eslint-plugin-vue": "^8.2.0",
+    "nodemon": "^2.0.19",
     "prettier": "^2.5.1",
     "sass": "^1.54.0",
     "vite": "^2.9.5"

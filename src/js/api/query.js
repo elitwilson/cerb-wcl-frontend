@@ -19,8 +19,4 @@ const query = (gql) => {
     });
 }
 
-function getToken() {
-    
-}
-
 export default query

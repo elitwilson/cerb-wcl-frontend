@@ -3,12 +3,13 @@ const path = require('path')
 const cors = require('cors')
 const app = express()
 const axios = require('axios');
+const history = require('connect-history-api-fallback')
 require('dotenv').config()
 
 app.use(express.static('src/dist'));
 
-// Accept all 
 app.use(cors())
+app.use(history())
 
 
 app.get('/home', function(req,res){
@@ -17,8 +18,6 @@ app.get('/home', function(req,res){
 
 app.get('/gettoken', function(req, res) {
     let uri = 'https://www.warcraftlogs.com/oauth/token'
-    let public_api = 'https://www.warcraftlogs.com/api/v2/client'
-    let grant_type = 'client_credentials'
 
     axios({
         method: 'post',

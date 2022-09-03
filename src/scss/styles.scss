@@ -1,7 +1,120 @@
+// Import all of bootstrap, or...
 @import "~bootstrap/scss/bootstrap";
+
+// ...import specific parts as needed
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+//@import "~bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+$body-bg: $dark;
+$body-color: white;
+
+$timeline-cell-width: 5em;
+
+// $primary: red;
+// $secondary: red;
+// $success: blue;
+// $info: green;
+
+
+// $theme-colors: (
+//   "primary":    $primary,
+//   "secondary":  $secondary,
+//   "success":    $success,
+//   "info":       $info,
+//   "warning":    $warning,
+//   "danger":     $danger,
+//   "light":      $light,
+//   "dark":       $dark
+// );
+
+
+
+
+// 3. Include remainder of required Bootstrap stylesheets
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
+
+// 4. Include any optional Bootstrap components as you like
+// @import "~bootstrap/scss/maps";
+// @import "~bootstrap/scss/root";
+// @import "~bootstrap/scss/nav";
+// @import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/containers";
+// @import "~bootstrap/scss/grid";
+// @import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/images";
 
 .btn-custom {
     @include button-variant(#3FB883, #194f37, #3FB883, #444, #333, #3FB883);
     color: white;
 }
 
+body {
+    background-color: $body-bg;
+    color: $body-color;
+}
+
+div {
+    display: block;
+}
+
+.router-link-active {
+    color: #3FB883;
+}
+
+.nav-link {
+    text-align: center;
+}
+
+.bottom-align {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding-bottom: 0.5em;
+}
+a.bottom-align {
+    text-align: center;
+}
+
+.col.border-bottom {
+    position: relative;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.modal-dialog {
+    color: black;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; // remove the gap so it doesn't close
+ }
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img#cerb-logo {
+    width: 164px;
+    height: 164px;
+    margin-top: 2em;
+}
+
+.form-control, .form-control:focus {
+    color: rgb(209, 205, 199);
+    background-color: rgb(24, 26, 27);
+    border-color: rgb(60, 65, 68);
+}
+
+.card, .card-body {
+    color: rgb(209, 205, 199);
+    background-color: rgb(24, 26, 27);
+    border-color: rgb(60, 65, 68);
+}

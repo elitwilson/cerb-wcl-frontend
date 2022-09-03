@@ -1,22 +1,46 @@
-import axios from 'axios'
-import { request, gql } from 'graphql-request'
+import axios from "axios";
+//import { request, gql } from "graphql-request";
 
 const query = (gql) => {
-    let token = ''
-    console.log(gql)
-    axios.get('http://localhost:3001/gettoken') // Don't hardcode this...
+  // axios({
+  //   url: 'http://localhost:3001/gqlquery',
+  //   method: 'post',
+  //   data: gql
+  // }).then((result) => {
+  //   console.log(result.data)
+  // });
+  // var data = JSON.stringify(gql);
+  // console.log(data)
+  
+  var config = {
+    method: 'post',
+    url: 'http://localhost:3001/gqlquery',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : gql
+  };
+  
+  axios(config)
     .then(function (response) {
-        // handle success
-        console.log(response);
-        token = response.data.token
+      console.log(JSON.stringify(response.data));
     })
     .catch(function (error) {
-        // handle error
-        console.log(error);
-    })
-    .then(function () {
-        // always executed
+      console.log(error);
     });
-}
+  // axios
+  //   .get("http://localhost:3001/gqlquery")
+  //   .then(function (response) {
+  //     // handle success
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     // handle error
+  //     console.log(error);
+  //   })
+  //   .then(function () {
+  //     // always executed
+  //   });
+};
 
-export default query
+export default query;

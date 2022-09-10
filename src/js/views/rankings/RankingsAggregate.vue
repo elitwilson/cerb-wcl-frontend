@@ -49,6 +49,7 @@
     async function getDataForCodes(codes) {
         codes.forEach(code => {
             const query = buildQuery(code)
+            console.log("getDataForCodes VITE_API_URL=" + import.meta.env.VITE_API_URL)
             axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
                 .then((res) => {
                     loopEncounters(res.data.data)

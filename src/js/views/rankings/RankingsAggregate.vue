@@ -3,9 +3,11 @@
     import { ref } from 'vue'
     import axios from 'axios'
     import AggregateTable from "./components/AggregateTable.vue"
+    import { parseStringStyle } from '@vue/shared';
 
-    const data = ref()
-    let showTable = ref(false)
+    const parses = ref([])
+    const loading = ref(false)
+    const showTable = ref(false)
 
     function buildQuery(code) {
         const query = gql`
@@ -19,21 +21,19 @@
         return query
     }
 
-    function onSubmit(event) {
-        console.log(import.meta.env.VITE_API_URL)
-        axios.get(import.meta.env.VITE_API_URL)
-            .then(function (response) {
-                // handle success
-                console.log(response.data);
-            })
+    async function onSubmit(event) {
         // ToDo: Validate form, show errors, all that stuff
 
         // Split the report codes by new line
         let codes = event.target.elements.reportCodes.value.split("\n")
         // Loop through the codes and get the data
-        codes.forEach(code => {
-            //request('https://api.spacex.land/graphql/', buildQuery(code)).then((data) => console.log(data))
+        
+        await getDataForCodes(codes).then((res) => {
+            loading.value = true
+        })
+
             // Loop through all the encounters
+            
 
             // ToDo: Handle exclusions
 
@@ -41,14 +41,55 @@
 
             // If character is in the array already, then append the ranking number and update the entry
 
-            showTable = true;
+            
+        
+    }
+
+    // Step 1: Get the data for all the codes
+    async function getDataForCodes(codes) {
+        codes.forEach(code => {
+            const query = buildQuery(code)
+            axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
+                .then((res) => {
+                    loopEncounters(res.data.data)
+                })
+                .then(() => {
+                    //console.log(parses.value)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         })
     }
 
-    // var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
-    // var collapseList = collapseElementList.map(function (collapseEl) {
-    //     return new bootstrap.Collapse(collapseEl)
-    // })
+    // Step 2: Loop the encounters and get the fights
+    async function loopEncounters(encounters) {
+        encounters.forEach(encounter => {
+            if (encounter.encounter.id !== 724) { // Exclude Kalecgos
+                // Loop through all the characters in the encounter
+                encounter.roles.dps.characters.forEach(character => {
+                    loading.value = false
+                    showTable.value = true
+                    let match = parses.value.filter(e => e.id === character.id)[0]
+                    // If character is in tableData[] already, then append the ranking number and update the entry
+                    if (match) {
+                        match.bracketPercents.push(character.bracketPercent)
+                        match.fightCount++
+                    } else {
+                        // Otherwise, add the character to the list bracket parses list
+                        const newEntry = {
+                            id: character.id,
+                            name: character.name,
+                            bracketPercents: [character.bracketPercent],
+                            fightCount: 1
+                        }
+                        parses.value.push(newEntry)
+                    }                    
+                })
+            }
+        })
+        // console.log(parses.value)
+    }
 </script>
 
 <template>
@@ -57,7 +98,10 @@
         
             <div class="collapse show card card-body row justify-content-center">
                 <textarea class="form-control" id="reportCodes" placeholder="Enter report codes" rows="5"></textarea>
-                <button type="submit" class="btn btn-custom mt-2" style="width: 5em;">Submit</button>
+                <button type="submit" class="btn btn-custom mt-2" style="width: 7em;">Submit
+                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span v-if="loading" class="visually-hidden">Loading...</span>
+                </button>
             </div>
         </form>
     </div>
@@ -65,7 +109,7 @@
         
         <div class="col-4">
             <button @click="function() {showTable = false }" type="button" class="btn btn-custom mb-2">Reset</button>   
-            <AggregateTable />
+            <AggregateTable :table-data="parses" />
         </div>        
     </div>
 </template>

@@ -14,11 +14,11 @@ app.use(history());
 // What was this all about?
 app.get("/about", function (req, res) {
   console.log("about");
-  res(__dirname + "/src/dist/index.html");
+  res.render(__dirname + "/src/dist/index.html");
 });
 
 app.get("/home", function (req, res) {
-  res(__dirname + "/src/dist/index.html");
+  res.render(__dirname + "/src/dist/index.html");
 });
 
 app.get("/gettoken", function (req, res) {

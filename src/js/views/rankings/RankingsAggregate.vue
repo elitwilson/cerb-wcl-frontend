@@ -33,26 +33,26 @@
     }
     // Step 1: Get the data for all the codes
     async function getDataForCodes(codes) {
-        codes.forEach(code => {
-            const query = buildQuery(code)
-            axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
-                .then((res) => {
-                    loopEncounters(res.data.data)
-                })
-                .catch((err) => {                    
-                    console.log(err)
-                })
-        })
+        let allEncounters = []
+        for (let i=0; i < codes.length; i++) {  
+            const query = buildQuery(codes[i])
+            const encounter = await axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
+            allEncounters = allEncounters.concat(encounter.data.data)
+            
+        }
+        console.log(allEncounters)
+        loopEncounters(allEncounters)
     }
 
     // Step 2: Loop the encounters and get the fights
     async function loopEncounters(encounters) {
+        console.log(encounters.length)
         encounters.forEach(encounter => {
             if (encounter.encounter.id !== 724) { // Exclude Kalecgos
                 // Loop through all the characters in the encounter
                 encounter.roles.dps.characters.forEach(character => {
-                    loading.value = false
-                    showTable.value = true
+                    
+                    
                     let match = parses.value.filter(e => e.id === character.id)[0]
                     // If character is in tableData[] already, then append the ranking number and update the entry
                     if (match) {
@@ -71,6 +71,9 @@
                 })
             }
         })  
+        // Done. Show table
+        showTable.value = true
+        loading.value = false
     }
 </script>
 

@@ -83,16 +83,18 @@
 
 <template>
     <div v-if="!showTable" class="row justify-content-center">
-        <form class="col-sm-4" @submit.prevent="onSubmit">
-        
-            <div class="collapse show card card-body row justify-content-center">
-                <textarea class="form-control" id="reportCodes" placeholder="Enter report codes" rows="5"></textarea>
-                <button type="submit" class="btn btn-custom mt-2" style="width: 7em;">Submit
-                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span v-if="loading" class="visually-hidden">Loading...</span>
-                </button>
-            </div>
-        </form>
+        <div class="col-sm-4 justify-content-center">
+            <span>Paste one report code per line</span>
+            <form @submit.prevent="onSubmit">
+                <div class="collapse show card card-body row justify-content-center">
+                    <textarea class="form-control" id="reportCodes" placeholder="Enter report codes" rows="5"></textarea>
+                    <button type="submit" class="btn btn-custom mt-2" style="width: 7em;">Submit
+                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span v-if="loading" class="visually-hidden">Loading...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <div v-if="showTable" class="row justify-content-center">
         

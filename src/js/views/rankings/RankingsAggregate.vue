@@ -20,16 +20,23 @@
         return query
     }
 
+    function reset() {
+        loading.value = false
+        showTable.value = false
+        parses.value = []
+    }
+
     async function onSubmit(event) {
         // ToDo: Validate form, show errors, all that stuff
 
         // Split the report codes by new line
         let codes = event.target.elements.reportCodes.value.split("\n")
         // Loop through the codes and get the data
-        
-        await getDataForCodes(codes).then((res) => {
-            loading.value = true
-        })
+        loading.value = true
+        await getDataForCodes(codes)
+        // Done. Show table
+        showTable.value = true
+        loading.value = false
     }
     // Step 1: Get the data for all the codes
     async function getDataForCodes(codes) {
@@ -71,9 +78,6 @@
                 })
             }
         })  
-        // Done. Show table
-        showTable.value = true
-        loading.value = false
     }
 </script>
 
@@ -93,7 +97,7 @@
     <div v-if="showTable" class="row justify-content-center">
         
         <div class="col-sm-4">
-            <button @click="function() {showTable = false }" type="button" class="btn btn-custom mb-2">Reset</button>   
+            <button @click="reset" type="button" class="btn btn-custom mb-2">Reset</button>   
             <AggregateTable :table-data="parses" />
         </div>        
     </div>

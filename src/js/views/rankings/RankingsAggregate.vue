@@ -3,7 +3,6 @@
     import { ref } from 'vue'
     import axios from 'axios'
     import AggregateTable from "./components/AggregateTable.vue"
-    import { parseStringStyle } from '@vue/shared';
 
     const parses = ref([])
     const loading = ref(false)
@@ -31,33 +30,16 @@
         await getDataForCodes(codes).then((res) => {
             loading.value = true
         })
-
-            // Loop through all the encounters
-            
-
-            // ToDo: Handle exclusions
-
-            // loop through all characters in the encounter
-
-            // If character is in the array already, then append the ranking number and update the entry
-
-            
-        
     }
-
     // Step 1: Get the data for all the codes
     async function getDataForCodes(codes) {
         codes.forEach(code => {
             const query = buildQuery(code)
-            console.log("getDataForCodes VITE_API_URL=" + import.meta.env.VITE_API_URL)
             axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
                 .then((res) => {
                     loopEncounters(res.data.data)
                 })
-                .then(() => {
-                    //console.log(parses.value)
-                })
-                .catch((err) => {
+                .catch((err) => {                    
                     console.log(err)
                 })
         })
@@ -88,14 +70,13 @@
                     }                    
                 })
             }
-        })
-        // console.log(parses.value)
+        })  
     }
 </script>
 
 <template>
     <div v-if="!showTable" class="row justify-content-center">
-        <form class="col-4" @submit.prevent="onSubmit">
+        <form class="col-sm-4" @submit.prevent="onSubmit">
         
             <div class="collapse show card card-body row justify-content-center">
                 <textarea class="form-control" id="reportCodes" placeholder="Enter report codes" rows="5"></textarea>
@@ -108,7 +89,7 @@
     </div>
     <div v-if="showTable" class="row justify-content-center">
         
-        <div class="col-4">
+        <div class="col-sm-4">
             <button @click="function() {showTable = false }" type="button" class="btn btn-custom mb-2">Reset</button>   
             <AggregateTable :table-data="parses" />
         </div>        

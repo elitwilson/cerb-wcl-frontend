@@ -1,12 +1,37 @@
 <script setup>
     import { request, gql } from 'graphql-request'
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
     import axios from 'axios'
     import AggregateTable from "./components/AggregateTable.vue"
 
     const parses = ref([])
+    const fights = ref([])
     const loading = ref(false)
     const showTable = ref(false)
+
+    async function getFights(code) {
+        const query = gql`
+        {
+            reportData {
+                report(code: "${code}") {
+                    fights {
+                        startTime
+                        endTime
+                        id
+                        encounterID
+                    }
+                }
+	        }
+        }`
+
+        axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     function buildQuery(code) {
         const query = gql`
@@ -19,6 +44,8 @@
         }`
         return query
     }
+
+
 
     function reset() {
         loading.value = false
@@ -38,14 +65,20 @@
         showTable.value = true
         loading.value = false
     }
+
+    function EncounterInfo(code) {
+        if (code.type != String) return
+        
+    }
+
     // Step 1: Get the data for all the codes
     async function getDataForCodes(codes) {
         let allEncounters = []
         for (let i=0; i < codes.length; i++) {  
             const query = buildQuery(codes[i])
+            await getFights(codes[i])
             const encounter = await axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
-            allEncounters = allEncounters.concat(encounter.data.data)
-            
+            allEncounters = allEncounters.concat(encounter.data.reportData.report.rankings.data)
         }
         console.log(allEncounters)
         loopEncounters(allEncounters)
@@ -66,7 +99,7 @@
                         match.bracketPercents.push(character.bracketPercent)
                         match.fightCount++
                     } else {
-                        // Otherwise, add the character to the list bracket parses list
+                        // Otherwise, add the character to the bracket parses list
                         const newEntry = {
                             id: character.id,
                             name: character.name,

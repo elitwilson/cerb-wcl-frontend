@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: "/rankings/aggregate",
       name: "aggregate",
-      component: () => import("../views/rankings/RankingsAggregate.vue")
+      component: () => import("../views/RankingsAggregate.vue")
     },
     // Handle errors
     { 

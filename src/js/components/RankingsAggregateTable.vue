@@ -1,21 +1,21 @@
-<script setup>
-    import { computed } from 'vue'
+<script setup lang="ts">
+    import { PropType, computed } from 'vue'
     const props = defineProps({
-        tableData: Array
+        tableData: Array as PropType<any>,
     })
 
-    function avgparses(parses) {
-        let p = parses.reduce((a, b) => a + b) / parses.length;
+    function avgparses(parses: any[]) {
+        let p = parses.reduce((a: any, b: any) => a + b) / parses.length;
         return Math.round(p)
     }
 
     const sortedRows = computed(() => {
-        props.tableData.forEach(item => {
+        props.tableData.forEach((item: any) => {
             // Average the rankings for each character
             item.bracketPercents = avgparses(item.bracketPercents)
         })
         //props.tableData.sort((a,b) => (a.bracketPercents > b.bracketPercents) ? 1 : ((b.bracketPercents > a.bracketPercents) ? -1 : 0))
-        props.tableData.sort((a,b) => b.bracketPercents - a.bracketPercents);
+        props.tableData.sort((a: { bracketPercents: number; },b: { bracketPercents: number; }) => b.bracketPercents - a.bracketPercents);
         let sorted = props.tableData
         return sorted
     })

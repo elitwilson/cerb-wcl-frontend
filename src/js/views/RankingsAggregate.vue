@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
     import { request, gql } from 'graphql-request'
     import { ref, onMounted } from 'vue'
     import axios from 'axios'
-    import AggregateTable from "./components/AggregateTable.vue"
+    import AggregateTable from '@/components/RankingsAggregateTable.vue'
 
-    const parses = ref([])
+    const url = import.meta.env.VITE_API_URL
+
+    const parses = ref<any>([])
     const fights = ref([])
     const loading = ref(false)
     const showTable = ref(false)
 
-    async function getFights(code) {
+    async function getFights(code: string) {
         const query = gql`
         {
             reportData {
@@ -24,7 +26,7 @@
 	        }
         }`
 
-        axios.post(import.meta.env.VITE_API_URL + "/gqlquery", { query })
+        axios.post(url + "/gqlquery", { query })
             .then((res) => {
                 console.log(res)
             })
@@ -33,7 +35,7 @@
             })
     }
 
-    function buildQuery(code) {
+    function buildQuery(code: string) {
         const query = gql`
         {
             reportData {
@@ -53,7 +55,7 @@
         parses.value = []
     }
 
-    async function onSubmit(event) {
+    async function onSubmit(event: any) {
         // ToDo: Validate form, show errors, all that stuff
 
         // Split the report codes by new line
@@ -66,14 +68,14 @@
         loading.value = false
     }
 
-    function EncounterInfo(code) {
+    function EncounterInfo(code: { type: StringConstructor }) {
         if (code.type != String) return
         
     }
 
     // Step 1: Get the data for all the codes
-    async function getDataForCodes(codes) {
-        let allEncounters = []
+    async function getDataForCodes(codes: string | any[]) {
+        let allEncounters: any[] = []
         for (let i=0; i < codes.length; i++) {  
             const query = buildQuery(codes[i])
             await getFights(codes[i])
@@ -85,15 +87,15 @@
     }
 
     // Step 2: Loop the encounters and get the fights
-    async function loopEncounters(encounters) {
+    async function loopEncounters(encounters: any[]) {
         console.log(encounters.length)
-        encounters.forEach(encounter => {
+        encounters.forEach((encounter: { encounter: { id: number }; roles: { dps: { characters: any[] } } }) => {
             if (encounter.encounter.id !== 724) { // Exclude Kalecgos
                 // Loop through all the characters in the encounter
-                encounter.roles.dps.characters.forEach(character => {
+                encounter.roles.dps.characters.forEach((character: { id: any; bracketPercent: any; name: any }) => {
                     
                     
-                    let match = parses.value.filter(e => e.id === character.id)[0]
+                    let match = parses.value.filter((e: { id: any }) => e.id === character.id)[0]
                     // If character is in tableData[] already, then append the ranking number and update the entry
                     if (match) {
                         match.bracketPercents.push(character.bracketPercent)

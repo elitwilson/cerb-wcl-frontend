@@ -1,16 +1,22 @@
 version: '3.8'
 
 services:
- vue-dev:
-  build:
-   context: .
-  tty: true
-  environment:
-    - CHOKIDAR_USEPOLLING=true
-  ports:
-    - 3000:3000
-  volumes:
-    - ./:/app
-    - /app/node_modules # <- Required so that the host node_modules directory doesn't conflict with what is in the container
-  command: [ "npm" , "run", "dev", "--host" ]
-  # command: [ "npm", "start" ]
+  cerb-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cerb-frontend:dev
+    container_name: cerb-frontend
+    ports:
+      - 3000:0000
+    environment:
+      - VITE_API_URL="http://localhost:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["yarn", "run", "dev"]
+  cerb-backend:
+    build:
+      context: ../cerberus-wcl-backend
+      dockerfile: Dockerfile
+      

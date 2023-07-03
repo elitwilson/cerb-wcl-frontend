@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/js/*"]
+    },
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strictPropertyInitialization": false, // https://stackoverflow.com/questions/49699067/property-has-no-initializer-and-is-not-definitely-assigned-in-the-construc
+  },
+  "include": ["src/js/**/*.ts", "src/js/**/*.d.ts", "src/js/**/*.tsx", "src/js/**/*.vue", "src/js/**/**/*.vue", "src/js/**/**/**/*.vue"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -48,4 +48,3 @@ app.get("/gettoken", function (req, res) {
 app.listen(process.env.PORT || 3001, () => {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });
-//
